@@ -3,6 +3,7 @@
     host: https://api.orizon.chiaret.to:6443
     username: chiaretto
     password: "VMware1!"
+    validate_certs: false
   register: openshift_auth_results
 
 - name: Criando projeto no ambiente corporativo
