@@ -1,0 +1,17 @@
+- name: Criando o team orizon para o sync com o grupo
+  ansible.builtin.uri:
+    url: "https://quay.com.br/api/v1/organization/<org>/team/<team>"
+    method: PUT
+    headers:
+      Authorization: "Bearer <token>"
+    body_format: json
+    body: {"role": "admin", "description": "team para o sync com o grupo"}
+
+- name: Fazendo o sync do grupo com o quay
+  ansible.builtin.uri:
+    url: "https://quay.com.br/api/v1/organization/<org>/team/<team>/syncing"
+    method: POST
+    headers:
+      Authorization: "Bearer <token>"
+    body_format: json
+    body: {"group_dn": "{{group.distinguished_name | regex_search('.*<domain>')}}"}

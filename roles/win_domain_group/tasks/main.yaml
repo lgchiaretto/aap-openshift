@@ -1,0 +1,14 @@
+- name: Criando o grupo ADMIN ambiente desenvolvimento
+  community.windows.win_domain_group:
+    name: <group name>
+    organizational_unit: <OU>
+    scope: global
+    category: security
+    ignore_protection: yes
+  register: group
+
+- name: Adicionando {{usuario}} no grupo <group name>
+  community.windows.win_domain_group_membership:
+    name: <group name>
+    members: "{{usuario}}"
+    state: present

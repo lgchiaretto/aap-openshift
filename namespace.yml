@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    ansible_user: "{{ user }}"
+    ansible_ssh_pass: "{{ pass }}"
+
+  tasks:
+
+    - include_role:
+        name: ns_openshift
