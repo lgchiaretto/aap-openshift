@@ -1,4 +1,4 @@
-- name: Creating the team that will be sync with AD
+- name: Creating admin team on Quay
   ansible.builtin.uri:
     url: "{{ quayhost }}/api/v1/organization/orizon_{{namespaceocp | lower}}/team/admins"
     method: PUT
@@ -7,14 +7,32 @@
     body_format: json
     body: {"role": "admin", "description": "created by AAP"}
 
-- name: Sync with Quay
+- name: Sync admin group with Quay
   ansible.builtin.uri:
     url: "{{ quayhost }}/api/v1/organization/orizon_{{namespaceocp | lower}}/team/admins/syncing"
     method: POST
     headers:
       Authorization: "Bearer {{ quay_token }}"
     body_format: json
-    body: {"group_dn": "{{ group }}"}
+    body: {"group_dn": "cn=ocpadmins,cn=users"}
+    
+- name: Creating dev team on Quay
+  ansible.builtin.uri:
+    url: "{{ quayhost }}/api/v1/organization/orizon_{{namespaceocp | lower}}/team/admins"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ quay_token }}"
+    body_format: json
+    body: {"role": "developers", "description": "created by AAP"}
+
+- name: Sync dev group with Quay
+  ansible.builtin.uri:
+    url: "{{ quayhost }}/api/v1/organization/orizon_{{namespaceocp | lower}}/team/developers/syncing"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ quay_token }}"
+    body_format: json
+    body: {"group_dn": "{{ group }}"}  
 
 - name: Creating default permissions to group admins
   ansible.builtin.uri:
@@ -24,3 +42,12 @@
       Authorization: "Bearer {{ quay_token }}"
     body_format: json
     body: {"delegate":{"name":"admins","kind":"team","is_robot":false,"is_org_member":true},"role":"admin"}
+
+- name: Creating default permissions to group developers
+  ansible.builtin.uri:
+    url: "{{ quayhost }}/api/v1/organization/orizon_{{namespaceocp | lower}}/prototypes"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ quay_token }}"
+    body_format: json
+    body: {"delegate":{"name":"developers","kind":"team","is_robot":false,"is_org_member":true},"role":"admin"}
