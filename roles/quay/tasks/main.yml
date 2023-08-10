@@ -15,3 +15,12 @@
       Authorization: "Bearer {{ quay_token }}"
     body_format: json
     body: {"group_dn": "{{ group }}"}
+
+- name: Creating default permissions to group admins
+  ansible.builtin.uri:
+    url: "{{ quayhost }}/api/v1/organization/orizon_{{namespaceocp | lower}}/prototypes"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ quay_token }}"
+    body_format: json
+    body: {"delegate":{"name":"admins","kind":"team","is_robot":false,"is_org_member":true},"role":"admin"}
