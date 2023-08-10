@@ -1,17 +1,26 @@
-- name: Log in (obtain access token)
+- name: Log in (obtain access token) on Openshift
   redhat.openshift.openshift_auth:
-    host: https://api.orizon.chiaret.to:6443
-    username: chiaretto
-    password: "VMware1!"
+    host: {{ ocphost }}
+    username: {{ ocpuser }}
+    password: {{ ocppass }}
     validate_certs: false
   register: openshift_auth_results
 
-- name: Criando projeto no ambiente corporativo
+- name: Creating project on Openshift
   kubernetes.core.k8s:
-    host: https://api.orizon.chiaret.to:6443
+    host: {{ ocphost }}
     api_key: "{{openshift_auth_results.openshift_auth.api_key}}"
     validate_certs: false
     api_version: v1
     template: namespace.yaml
     state: present
   register: namespace
+
+- name: Log out from Openshift
+  redhat.openshift.openshift_auth:
+    host: {{ ocphost }}
+    api_key: "{{openshift_auth_results.openshift_auth.api_key}}"
+    validate_certs: false
+    state: absent
+  when: openshift_auth_results.openshift_auth.api_key is defined
+  ignore_errors: true
