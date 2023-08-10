@@ -8,7 +8,7 @@
 
 - name: Creating project on Openshift
   kubernetes.core.k8s:
-    host: {{ ocphost }}
+    host: "{{ ocphost }}"
     api_key: "{{openshift_auth_results.openshift_auth.api_key}}"
     validate_certs: false
     api_version: v1
@@ -18,7 +18,7 @@
 
 - name: Log out from Openshift
   redhat.openshift.openshift_auth:
-    host: {{ ocphost }}
+    host: "{{ ocphost }}"
     api_key: "{{openshift_auth_results.openshift_auth.api_key}}"
     validate_certs: false
     state: absent
