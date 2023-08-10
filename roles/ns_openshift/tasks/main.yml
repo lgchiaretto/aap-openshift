@@ -1,8 +1,8 @@
 - name: Log in (obtain access token) on Openshift
   redhat.openshift.openshift_auth:
-    host: {{ ocphost }}
-    username: {{ ocpuser }}
-    password: {{ ocppass }}
+    host: "{{ ocphost }}"
+    username: "{{ ocpuser }}"
+    password: "{{ ocppass }}"
     validate_certs: false
   register: openshift_auth_results
 
