@@ -16,16 +16,6 @@
     state: present
   register: namespace
 
-- name: Grant admin permission to developers on Openshift project
-  kubernetes.core.k8s:
-    host: "{{ ocphost }}"
-    api_key: "{{openshift_auth_results.openshift_auth.api_key}}"
-    validate_certs: false
-    api_version: v1
-    template: rolebinding.yaml
-    state: present
-  register: rolebinding
-
 - name: Log out from Openshift
   redhat.openshift.openshift_auth:
     host: "{{ ocphost }}"
