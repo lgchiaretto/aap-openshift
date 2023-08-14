@@ -3,6 +3,5 @@
   gather_facts: no
 
   tasks:
-
     - include_role:
-        name: ns_openshift
+        name: create_ns_openshift
