@@ -7,6 +7,10 @@
     body_format: json
     body: {"role": "admin", "description": "created by AAP"}
 
+- name: 2 seconds pause
+  pause:
+    seconds: 2
+
 - name: Sync admin group with Quay
   ansible.builtin.uri:
     url: "{{ quayhost }}/api/v1/organization/orizon_{{namespaceocp | lower}}/team/admins/syncing"
@@ -24,6 +28,10 @@
       Authorization: "Bearer {{ quay_token }}"
     body_format: json
     body: {"role": "admin", "description": "created by AAP"}
+
+- name: 2 seconds pause
+  pause:
+    seconds: 10
 
 - name: Sync dev group with Quay
   ansible.builtin.uri:
